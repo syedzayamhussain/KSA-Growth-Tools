@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSA Growth Tools | ESB, Musaned & Nitaqat Calculator</title>
+    
+    <script src="https://pl28703910.effectivegatecpm.com/af/e2/10/afe2106198b13e2addb4d9cbfc21db03.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0f172a; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .active-tab { background-color: #3b82f6; color: white; border-color: #3b82f6; }
+        .slider-thumb::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #3b82f6; cursor: pointer; }
+    </style>
+</head>
+<body class="text-slate-300 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-2xl">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">KSA GROWTH SUITE</h1>
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-[0.3em] mt-2">Tools for Expats & Business Owners</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 mb-6">
+            <button onclick="switchTool('esb')" id="btn-esb" class="active-tab py-3 rounded-xl font-bold text-xs md:text-sm border border-slate-700 transition-all hover:bg-slate-800">
+                💰 Final Exit (ESB)
+            </button>
+            <button onclick="switchTool('musaned')" id="btn-musaned" class="py-3 rounded-xl font-bold text-xs md:text-sm border border-slate-700 bg-slate-900 transition-all hover:bg-slate-800">
+                🏠 Musaned Budget
+            </button>
+            <button onclick="switchTool('nitaqat')" id="btn-nitaqat" class="py-3 rounded-xl font-bold text-xs md:text-sm border border-slate-700 bg-slate-900 transition-all hover:bg-slate-800">
+                🇸🇦 Nitaqat Check
+            </button>
+        </div>
+
+        <div id="tool-esb" class="glass rounded-3xl p-6 md:p-8 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-white font-bold text-xl">End of Service Predictor</h2>
+                <span class="bg-blue-900 text-blue-300 text-[10px] font-bold px-2 py-1 rounded">Labor Law Art. 84/85</span>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2">Last Basic Salary (SAR)</label>
+                    <input type="number" id="esbSalary" placeholder="e.g. 8500" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-white text-xl font-mono focus:border-blue-500 outline-none" oninput="calcESB()">
+                </div>
+
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <label class="text-xs font-bold uppercase tracking-widest">Duration of Service</label>
+                        <span id="yearsDisplay" class="text-blue-400 font-bold">1 Year</span>
+                    </div>
+                    <input type="range" id="esbYears" min="1" max="30" value="1" step="0.5" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider-thumb" oninput="calcESB()">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="setEsbReason('resignation')" id="btn-resigns" class="py-3 bg-slate-800 border border-slate-600 rounded-lg text-sm font-bold text-white hover:bg-slate-700 active:bg-blue-600 transition-colors">I Resigned 📝</button>
+                    <button onclick="setEsbReason('termination')" id="btn-term" class="py-3 bg-slate-800 border border-slate-600 rounded-lg text-sm font-bold text-white hover:bg-slate-700 active:bg-red-600 transition-colors">Terminated 🚫</button>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl p-6 text-center border border-slate-800">
+                    <p class="text-slate-500 text-xs font-bold uppercase mb-2">Estimated Payout</p>
+                    <p id="esbResult" class="text-4xl font-black text-white tracking-tighter">0.00 <span class="text-lg text-blue-500">SAR</span></p>
+                    <p id="esbNote" class="text-[10px] text-slate-500 mt-2 italic">Based on Article 84 (Termination) or Article 85 (Resignation)</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tool-musaned" class="glass rounded-3xl p-6 md:p-8 shadow-2xl hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-white font-bold text-xl">Domestic Worker Budget</h2>
+                <span class="bg-emerald-900 text-emerald-300 text-[10px] font-bold px-2 py-1 rounded">2025 Price Ceilings</span>
+            </div>
+
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2">Select Nationality</label>
+                    <select id="musanedNat" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-white font-bold outline-none appearance-none" onchange="calcMusaned()">
+                        <option value="14700">🇵🇭 Philippines (~14,700 SAR)</option>
+                        <option value="13800">🇱🇰 Sri Lanka (~13,800 SAR)</option>
+                        <option value="11750">🇧🇩 Bangladesh (~11,750 SAR)</option>
+                        <option value="9000">🇰🇪 Kenya (~9,000 SAR)</option>
+                        <option value="8300">🇺🇬 Uganda (~8,300 SAR)</option>
+                        <option value="5900">🇪🇹 Ethiopia (~5,900 SAR)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 text-center text-xs text-slate-400">
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                        <p class="mb-1">Visa Fee</p>
+                        <p class="text-white font-bold">2,000 SAR</p>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-700">
+                        <p class="mb-1">Iqama/Year</p>
+                        <p class="text-white font-bold">600 SAR</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl p-6 border border-slate-800">
+                    <div class="flex justify-between items-end mb-1">
+                        <p class="text-slate-400 text-xs font-bold uppercase">Total Year 1 Cost</p>
+                        <p id="musanedTotal" class="text-3xl font-black text-emerald-400">0 SAR</p>
+                    </div>
+                    <p class="text-[10px] text-slate-600 leading-tight">Includes Recruitment + Visa + Iqama + Approx Insurance. Does not include monthly salary.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tool-nitaqat" class="glass rounded-3xl p-6 md:p-8 shadow-2xl hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-white font-bold text-xl">Saudization Checker</h2>
+                <span class="bg-purple-900 text-purple-300 text-[10px] font-bold px-2 py-1 rounded">Small Business Rule</span>
+            </div>
+
+            <div class="space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2">Total Staff</label>
+                        <input type="number" id="nitTotal" placeholder="0" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-white text-xl font-bold outline-none" oninput="calcNitaqat()">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase text-slate-400 mb-2">Saudi Staff</label>
+                        <input type="number" id="nitSaudi" placeholder="0" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-white text-xl font-bold outline-none" oninput="calcNitaqat()">
+                    </div>
+                </div>
+
+                <div id="nitCard" class="bg-slate-800 rounded-2xl p-6 text-center border-l-4 border-slate-600 transition-all">
+                    <p id="nitStatus" class="text-lg font-bold text-white mb-1">Enter your staff numbers</p>
+                    <p id="nitAdvice" class="text-xs text-slate-400">Calculation based on Small Entity (0-9) rules.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <a href="https://wa.me/?text=Check%20out%20this%20KSA%20Growth%20Suite!%20Calculate%20ESB,%20Musaned,%20and%20Nitaqat%20in%20one%20place:%20https://ksa-vat-calculator.vercel.app" 
+               class="inline-flex items-center justify-center px-8 py-4 bg-[#25D366] text-white rounded-full font-bold shadow-lg hover:bg-green-600 transition-transform active:scale-95">
+                <span>📲</span> &nbsp; Share on WhatsApp
+            </a>
+            <p class="text-[9px] text-slate-600 font-bold uppercase tracking-[0.2em] mt-4">Built by Zayam Hussain • 2026</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Navigation Logic ---
+        function switchTool(tool) {
+            // Hide all
+            document.getElementById('tool-esb').classList.add('hidden');
+            document.getElementById('tool-musaned').classList.add('hidden');
+            document.getElementById('tool-nitaqat').classList.add('hidden');
+            
+            // Reset Buttons
+            ['btn-esb', 'btn-musaned', 'btn-nitaqat'].forEach(id => {
+                document.getElementById(id).className = 'py-3 rounded-xl font-bold text-xs md:text-sm border border-slate-700 bg-slate-900 text-slate-400 transition-all hover:bg-slate-800';
+            });
+
+            // Show Selected
+            document.getElementById('tool-' + tool).classList.remove('hidden');
+            
+            // Highlight Button
+            const activeBtn = document.getElementById('btn-' + tool);
+            activeBtn.className = 'py-3 rounded-xl font-bold text-xs md:text-sm border shadow-lg transition-all ' + 
+                (tool === 'esb' ? 'bg-blue-600 text-white border-blue-500' : 
+                 tool === 'musaned' ? 'bg-emerald-600 text-white border-emerald-500' : 
+                 'bg-purple-600 text-white border-purple-500');
+        }
+
+        // --- ESB Logic (End of Service) ---
+        let esbReason = 'resignation'; 
+
+        function setEsbReason(reason) {
+            esbReason = reason;
+            document.getElementById('btn-resigns').className = reason === 'resignation' 
+                ? 'py-3 bg-blue-600 border border-blue-500 rounded-lg text-sm font-bold text-white shadow-lg' 
+                : 'py-3 bg-slate-800 border border-slate-600 rounded-lg text-sm font-bold text-slate-400 hover:bg-slate-700';
+            
+            document.getElementById('btn-term').className = reason === 'termination' 
+                ? 'py-3 bg-red-600 border border-red-500 rounded-lg text-sm font-bold text-white shadow-lg' 
+                : 'py-3 bg-slate-800 border border-slate-600 rounded-lg text-sm font-bold text-slate-400 hover:bg-slate-700';
+            calcESB();
+        }
+
+        function calcESB() {
+            const salary = parseFloat(document.getElementById('esbSalary').value) || 0;
+            const years = parseFloat(document.getElementById('esbYears').value) || 1;
+            document.getElementById('yearsDisplay').innerText = years + (years === 1 ? ' Year' : ' Years');
+
+            let reward = 0;
+
+            // Article 84 (Base Calculation)
+            let firstFive = Math.min(years, 5) * (salary / 2);
+            let afterFive = Math.max(0, years - 5) * salary;
+            let totalBase = firstFive + afterFive;
+
+            // Article 85 (Resignation Rules)
+            if (esbReason === 'resignation') {
+                if (years < 2) {
+                    reward = 0; // Nothing before 2 years
+                } else if (years >= 2 && years < 5) {
+                    reward = totalBase / 3; // 1/3rd rule
+                } else if (years >= 5 && years < 10) {
+                    reward = (totalBase * 2) / 3; // 2/3rd rule
+                } else {
+                    reward = totalBase; // Full reward after 10 years
+                }
+            } else {
+                // Termination: Full reward usually (assuming valid reason/contract completion)
+                reward = totalBase;
+            }
+
+            document.getElementById('esbResult').innerHTML = reward.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' <span class="text-lg text-blue-500">SAR</span>';
+        }
+
+        // --- Musaned Logic ---
+        function calcMusaned() {
+            const recruitmentCost = parseFloat(document.getElementById('musanedNat').value);
+            const govFees = 2000; // Visa
+            const iqama = 600;
+            const insurance = 1000; // Estimate
+            const total = recruitmentCost + govFees + iqama + insurance;
+            
+            document.getElementById('musanedTotal').innerText = total.toLocaleString() + " SAR";
+        }
+
+        // --- Nitaqat Logic (Small Business Rule) ---
+        function calcNitaqat() {
+            const total = parseInt(document.getElementById('nitTotal').value) || 0;
+            const saudi = parseInt(document.getElementById('nitSaudi').value) || 0;
+            const card = document.getElementById('nitCard');
+            const status = document.getElementById('nitStatus');
+            const advice = document.getElementById('nitAdvice');
+
+            if (total === 0) {
+                card.className = "bg-slate-800 rounded-2xl p-6 text-center border-l-4 border-slate-600";
+                status.innerText = "Waiting for data...";
+                advice.innerText = "Enter staff counts above.";
+                return;
+            }
+
+            if (total <= 9) {
+                // Small Entity Rule: 1 Saudi is enough for Green
+                if (saudi >= 1) {
+                    card.className = "bg-green-900/30 rounded-2xl p-6 text-center border-l-4 border-green-500";
+                    status.innerText = "✅ PLATINUM / GREEN";
+                    advice.innerText = "Excellent! For small businesses (0-9), having 1 Saudi usually keeps you in the safe zone.";
+                } else {
+                    card.className = "bg-red-900/30 rounded-2xl p-6 text-center border-l-4 border-red-500";
+                    status.innerText = "⚠️ RED ZONE RISK";
+                    advice.innerText = "Small businesses generally need at least 1 Saudi employee to open a file and stay Green.";
+                }
+            } else {
+                // General Rule of thumb for larger (Estimator)
+                const percent = (saudi / total) * 100;
+                if (percent >= 25) {
+                    card.className = "bg-green-900/30 rounded-2xl p-6 text-center border-l-4 border-green-500";
+                    status.innerText = `✅ GREEN (${percent.toFixed(1)}%)`;
+                    advice.innerText = "You are likely in a safe range for most Medium sectors.";
+                } else {
+                    card.className = "bg-yellow-900/30 rounded-2xl p-6 text-center border-l-4 border-yellow-500";
+                    status.innerText = `⚠️ CHECK COMPLIANCE (${percent.toFixed(1)}%)`;
+                    advice.innerText = "For 10+ staff, targets vary by sector. You might need to hire more Saudis to renew visas.";
+                }
+            }
+        }
+
+        // Init
+        calcMusaned();
+    </script>
+</body>
+</html>
