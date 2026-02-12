@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <script src="https://pl28704609.effectivegatecpm.com/8c/7d/fd/8c7dfdd028216fccbe2f5e2256c497cd.js"></script>
 
     <style>
         body { 
@@ -27,18 +26,31 @@
             color: white; 
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
-        input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
-            background: #3b82f6;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 4px solid #020617;
+        .toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #10b981;
+            color: #fff;
+            text-align: center;
+            border-radius: 12px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 800;
+            font-size: 14px;
         }
+        .toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
+     <script src="https://pl28704609.effectivegatecpm.com/8c/7d/fd/8c7dfdd028216fccbe2f5e2256c497cd.js"></script>
 </head>
 <body class="text-slate-200 min-h-screen">
+
+    <div id="copyToast" class="toast uppercase tracking-widest">Link Copied to Clipboard!</div>
 
     <header class="w-full py-6 px-4 border-b border-white/5 bg-slate-950/50 sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
@@ -59,19 +71,16 @@
     </header>
 
     <main class="max-w-7xl mx-auto py-8 px-4 md:py-16">
-        
         <div class="grid lg:grid-cols-12 gap-8 items-start">
             
             <div class="hidden lg:block lg:col-span-4 space-y-6">
                 <div class="glass-panel p-8 rounded-[2rem]">
                     <h3 class="text-blue-400 font-bold text-sm uppercase tracking-widest mb-4">Official Standards</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                        Designed for HR professionals and expatriates in Saudi Arabia. Our logic is updated for <strong>2026 ZATCA and MHRSD</strong> labor laws.
-                    </p>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Designed for professionals. Logic updated for 2024-2026 Labor Laws.</p>
                     <ul class="space-y-4 text-xs font-semibold text-slate-300">
-                        <li class="flex items-center gap-2">✅ Article 84/85 Compliance</li>
-                        <li class="flex items-center gap-2">✅ 2025 Musaned Price Caps</li>
-                        <li class="flex items-center gap-2">✅ Nitaqat Small Entity Rules</li>
+                        <li>✅ Article 84/85 Compliance</li>
+                        <li>✅ 2025 Musaned Price Caps</li>
+                        <li>✅ Includes 15% Recruitment VAT</li>
                     </ul>
                 </div>
             </div>
@@ -80,60 +89,64 @@
                 
                 <section id="tool-esb" class="glass-panel p-6 md:p-12 rounded-[2.5rem] shadow-2xl transition-all">
                     <div class="mb-10 text-center md:text-left">
-                        <h2 class="text-3xl font-800 text-white mb-2">End of Service Predictor</h2>
-                        <p class="text-slate-500 text-sm">Calculate your legal gratuity based on Saudi Labor Law.</p>
+                        <h2 class="text-3xl font-800 text-white mb-2 uppercase tracking-tighter">End of Service Predictor</h2>
+                        <p class="text-slate-500 text-sm">Calculate your legal gratuity payout.</p>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-8">
                         <div class="space-y-8">
                             <div>
-                                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 mb-3">Basic Monthly Salary (SAR)</label>
+                                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 mb-3">Basic Salary (SAR)</label>
                                 <input type="number" id="esbSalary" placeholder="e.g. 10000" class="w-full bg-slate-950 border border-white/10 rounded-2xl p-5 text-2xl font-bold text-white outline-none focus:border-blue-500" oninput="calcESB()">
                             </div>
                             <div>
                                 <div class="flex justify-between items-center mb-4">
-                                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">Service Period</label>
+                                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">Service Years</label>
                                     <span id="yearsDisplay" class="bg-blue-600/20 text-blue-400 px-3 py-1 rounded-lg font-bold text-sm">1 Year</span>
                                 </div>
                                 <input type="range" id="esbYears" min="1" max="30" value="1" step="0.5" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" oninput="calcESB()">
                             </div>
                             <div class="flex gap-4">
-                                <button onclick="setEsbReason('resignation')" id="btn-resigns" class="flex-1 py-4 bg-blue-600 rounded-2xl font-800 text-xs uppercase tracking-widest text-white shadow-lg shadow-blue-500/20 transition-all">I Resigned</button>
-                                <button onclick="setEsbReason('termination')" id="btn-term" class="flex-1 py-4 bg-slate-800 rounded-2xl font-800 text-xs uppercase tracking-widest text-slate-400 hover:bg-slate-700 transition-all">Terminated</button>
+                                <button onclick="setEsbReason('resignation')" id="btn-resigns" class="flex-1 py-4 bg-blue-600 rounded-2xl font-800 text-[10px] uppercase tracking-widest text-white transition-all">I Resigned</button>
+                                <button onclick="setEsbReason('termination')" id="btn-term" class="flex-1 py-4 bg-slate-800 rounded-2xl font-800 text-[10px] uppercase tracking-widest text-slate-400 transition-all">Terminated</button>
                             </div>
                         </div>
 
                         <div class="bg-slate-950 rounded-[2rem] p-8 flex flex-col justify-center items-center border border-white/5 text-center">
-                            <p class="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] mb-4">Final Estimated Settlement</p>
-                            <div id="esbResult" class="text-5xl md:text-6xl font-black text-white tracking-tighter mb-2">0.00</div>
-                            <p class="text-blue-500 font-bold">Saudi Riyals</p>
+                            <p class="text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] mb-4">Estimated Settlement</p>
+                            <div id="esbResult" class="text-5xl font-black text-white tracking-tighter mb-2">0.00</div>
+                            <p class="text-blue-500 font-bold uppercase text-[10px] tracking-widest">Saudi Riyals</p>
                         </div>
                     </div>
                 </section>
 
                 <section id="tool-musaned" class="glass-panel p-6 md:p-12 rounded-[2.5rem] shadow-2xl hidden transition-all">
-                    <div class="mb-10">
-                        <h2 class="text-3xl font-800 text-white mb-2 text-center md:text-left">Domestic Recruitment Budget</h2>
-                        <p class="text-slate-500 text-sm text-center md:text-left">Based on Musaned 2025 Price Ceilings.</p>
+                    <div class="mb-10 text-center md:text-left">
+                        <h2 class="text-3xl font-800 text-white mb-2 uppercase tracking-tighter">Domestic Worker Budget</h2>
+                        <p class="text-slate-500 text-sm">Price ceilings + Govt Fees + 15% VAT.</p>
                     </div>
                     <div class="space-y-8 max-w-xl mx-auto">
-                        <select id="musanedNat" class="w-full bg-slate-950 border border-white/10 rounded-2xl p-5 text-xl font-bold text-white outline-none appearance-none cursor-pointer" onchange="calcMusaned()">
-                            <option value="14700">🇵🇭 Philippines (~14,700 SAR)</option>
-                            <option value="13800">🇱🇰 Sri Lanka (~13,800 SAR)</option>
-                            <option value="11750">🇧🇩 Bangladesh (~11,750 SAR)</option>
-                            <option value="9000">🇰🇪 Kenya (~9,000 SAR)</option>
+                        <select id="musanedNat" class="w-full bg-slate-950 border border-white/10 rounded-2xl p-5 text-xl font-bold text-white outline-none" onchange="calcMusaned()">
+                            <option value="14700">🇵🇭 Philippines (14,700 SAR)</option>
+                            <option value="13800">🇱🇰 Sri Lanka (13,800 SAR)</option>
+                            <option value="12000">🇮🇳 India (12,000 SAR)</option>
+                            <option value="11750">🇧🇩 Bangladesh (11,750 SAR)</option>
+                            <option value="9500">🇵🇰 Pakistan (9,500 SAR)</option>
+                            <option value="5900">🇪🇹 Ethiopia (5,900 SAR)</option>
                         </select>
-                        <div class="bg-emerald-600/10 border border-emerald-500/20 rounded-2xl p-8 text-center">
-                            <p class="text-xs font-bold text-emerald-500 uppercase tracking-widest mb-2">Total Estimated Year 1 Cost</p>
+
+                        <div class="bg-emerald-600/10 border border-emerald-500/20 rounded-[2rem] p-10 text-center">
+                            <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-2">Year 1 Total Cost</p>
                             <p id="musanedTotal" class="text-5xl font-black text-white">0 SAR</p>
+                            <p class="text-[9px] text-slate-500 mt-4 uppercase font-bold">Includes Recruitment + 15% VAT + Visa + Iqama + Insurance</p>
                         </div>
                     </div>
                 </section>
 
                 <section id="tool-nitaqat" class="glass-panel p-6 md:p-12 rounded-[2.5rem] shadow-2xl hidden transition-all">
-                    <div class="mb-10 text-center md:text-left">
-                        <h2 class="text-3xl font-800 text-white mb-2">Saudization Safety Check</h2>
-                        <p class="text-slate-500 text-sm">Monitor your Nitaqat status for small and medium entities.</p>
+                    <div class="mb-10">
+                        <h2 class="text-3xl font-800 text-white mb-2 uppercase tracking-tighter">Saudization Safety</h2>
+                        <p class="text-slate-500 text-sm">Compliance for Small Entities (0-9 staff).</p>
                     </div>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="space-y-4">
@@ -141,8 +154,8 @@
                             <input type="number" id="nitSaudi" placeholder="Saudi Staff" class="w-full bg-slate-950 border border-white/10 rounded-2xl p-5 text-xl font-bold text-white outline-none" oninput="calcNitaqat()">
                         </div>
                         <div id="nitCard" class="bg-slate-950 rounded-2xl p-8 flex flex-col justify-center items-center text-center border border-white/5">
-                            <p id="nitStatus" class="text-xl font-black uppercase mb-2">Awaiting Data</p>
-                            <p id="nitAdvice" class="text-xs text-slate-500 leading-relaxed font-semibold">Enter your staff numbers to check your compliance color.</p>
+                            <p id="nitStatus" class="text-xl font-black uppercase mb-2">AWAITING DATA</p>
+                            <p id="nitAdvice" class="text-xs text-slate-500 font-semibold leading-relaxed">Enter staff numbers to check compliance.</p>
                         </div>
                     </div>
                 </section>
@@ -150,51 +163,70 @@
         </div>
     </main>
 
-    <footer class="max-w-7xl mx-auto px-4 py-12 border-t border-white/5 mt-12">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
-            <div class="text-center md:text-left">
-                <p class="text-xs font-black text-slate-500 uppercase tracking-[0.4em] mb-2">Developer</p>
-                <p class="text-white font-bold text-sm">Zayam.H • KSA PRO TOOLS 2026</p>
+    <footer class="max-w-7xl mx-auto px-4 py-12 border-t border-white/5 mt-12 mb-20">
+        <div class="flex flex-col lg:flex-row justify-between items-center gap-10">
+            <div class="text-center lg:text-left">
+                <p class="text-xs font-black text-slate-500 uppercase tracking-[0.4em] mb-2">Developed By</p>
+                <p class="text-white font-bold text-sm">Zayam.H • KSA PRO SUITE 2026</p>
             </div>
-            <a href="https://wa.me/?text=Check%20out%20this%20KSA%20ProCalc%20Suite!%20Calculate%20ESB,%20Musaned,%20and%20Nitaqat%20in%20one%20place:%20https://ksa-growth-tools.vercel.app/" 
-               class="px-8 py-4 bg-[#25D366] text-white rounded-2xl font-800 text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-green-500/20">
-               Share with WhatsApp Group
-            </a>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="shareLink()" class="flex items-center gap-3 px-6 py-4 bg-blue-600 text-white rounded-2xl font-800 text-xs uppercase tracking-widest hover:scale-105 transition-all">
+                    <span>📤</span> Universal Share
+                </button>
+                <a id="waLink" href="https://wa.me/?text=Check%20out%20this%20KSA%20ProCalc%20Suite!%20Calculate%20ESB,%20Musaned,%20and%20Nitaqat%20in%20one%20place:%20https://ksa-pro-calc.vercel.app" target="_blank" class="flex items-center gap-3 px-6 py-4 bg-[#25D366] text-white rounded-2xl font-800 text-xs uppercase tracking-widest hover:scale-105 transition-all">
+                    <span>💬</span> WhatsApp
+                </a>
+                <button onclick="copyToClipboard()" class="flex items-center gap-3 px-6 py-4 bg-slate-800 text-white rounded-2xl font-800 text-xs uppercase tracking-widest hover:scale-105 transition-all">
+                    <span>🔗</span> Copy Link
+                </button>
+            </div>
         </div>
         
-        <div class="bg-white/5 rounded-2xl p-6 text-center md:text-left border border-white/5">
-            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2">Legal Disclaimer</p>
-            <p class="text-[10px] text-slate-600 leading-relaxed uppercase">
-                The calculations provided by KSA ProCalc are for informational and estimation purposes only. While we follow the 2026 Saudi Labor Laws (Article 84 & 85) and Musaned price ceilings, actual amounts may vary based on specific contract terms, company policy, and final ZATCA audits. We strongly recommend consulting with an HR professional or the Ministry of Human Resources for final legal decisions.
+        <div class="bg-white/5 rounded-2xl p-6 border border-white/5 mt-10">
+            <p class="text-[9px] text-slate-600 leading-relaxed uppercase font-bold text-center">
+                Legal Disclaimer: This tool provides estimates only. Calculations follow 2024-2026 Saudi Labor Laws. Always verify with official MHRSD / Musaned portals for final legal accuracy.
             </p>
         </div>
     </footer>
 
     <script>
-        // Copy your existing script logic here exactly as it was
+        // --- Navigation ---
         function switchTool(tool) {
-            document.getElementById('tool-esb').classList.add('hidden');
-            document.getElementById('tool-musaned').classList.add('hidden');
-            document.getElementById('tool-nitaqat').classList.add('hidden');
-            
-            ['btn-esb', 'btn-musaned', 'btn-nitaqat'].forEach(id => {
-                document.getElementById(id).className = 'flex-1 md:flex-none px-6 py-2 rounded-xl text-xs font-bold text-slate-400 transition-all';
-            });
-
+            ['tool-esb', 'tool-musaned', 'tool-nitaqat'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            ['btn-esb', 'btn-musaned', 'btn-nitaqat'].forEach(id => document.getElementById(id).className = 'flex-1 md:flex-none px-6 py-2 rounded-xl text-xs font-bold text-slate-400 transition-all');
             document.getElementById('tool-' + tool).classList.remove('hidden');
             document.getElementById('btn-' + tool).className = 'nav-active flex-1 md:flex-none px-6 py-2 rounded-xl text-xs font-bold transition-all';
         }
 
+        // --- Sharing Logic ---
+        const siteURL = "https://ksa-pro-calc.vercel.app";
+
+        async function shareLink() {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'KSA ProCalc',
+                        text: 'Calculate your End of Service (ESB), Musaned Recruitment Budget, and Nitaqat status in seconds.',
+                        url: siteURL
+                    });
+                } catch (err) { console.log("Share failed", err); }
+            } else { copyToClipboard(); }
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(siteURL);
+            const toast = document.getElementById("copyToast");
+            toast.className = "toast show uppercase tracking-widest";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // --- ESB Logic ---
         let esbReason = 'resignation'; 
         function setEsbReason(reason) {
             esbReason = reason;
-            document.getElementById('btn-resigns').className = reason === 'resignation' 
-                ? 'flex-1 py-4 bg-blue-600 rounded-2xl font-800 text-xs uppercase tracking-widest text-white shadow-lg' 
-                : 'flex-1 py-4 bg-slate-800 rounded-2xl font-800 text-xs uppercase tracking-widest text-slate-400';
-            
-            document.getElementById('btn-term').className = reason === 'termination' 
-                ? 'flex-1 py-4 bg-red-600 rounded-2xl font-800 text-xs uppercase tracking-widest text-white shadow-lg' 
-                : 'flex-1 py-4 bg-slate-800 rounded-2xl font-800 text-xs uppercase tracking-widest text-slate-400';
+            document.getElementById('btn-resigns').className = reason === 'resignation' ? 'flex-1 py-4 bg-blue-600 rounded-2xl font-800 text-[10px] uppercase text-white' : 'flex-1 py-4 bg-slate-800 rounded-2xl font-800 text-[10px] uppercase text-slate-400';
+            document.getElementById('btn-term').className = reason === 'termination' ? 'flex-1 py-4 bg-red-600 rounded-2xl font-800 text-[10px] uppercase text-white' : 'flex-1 py-4 bg-slate-800 rounded-2xl font-800 text-[10px] uppercase text-slate-400';
             calcESB();
         }
 
@@ -202,51 +234,41 @@
             const salary = parseFloat(document.getElementById('esbSalary').value) || 0;
             const years = parseFloat(document.getElementById('esbYears').value) || 1;
             document.getElementById('yearsDisplay').innerText = years + (years === 1 ? ' Year' : ' Years');
-            let reward = 0;
             let firstFive = Math.min(years, 5) * (salary / 2);
             let afterFive = Math.max(0, years - 5) * salary;
             let totalBase = firstFive + afterFive;
+            let reward = 0;
             if (esbReason === 'resignation') {
                 if (years < 2) reward = 0;
-                else if (years >= 2 && years < 5) reward = totalBase / 3;
-                else if (years >= 5 && years < 10) reward = (totalBase * 2) / 3;
+                else if (years < 5) reward = totalBase / 3;
+                else if (years < 10) reward = (totalBase * 2) / 3;
                 else reward = totalBase;
             } else { reward = totalBase; }
             document.getElementById('esbResult').innerText = reward.toLocaleString('en-US', {minimumFractionDigits: 2});
         }
 
+        // --- Musaned Logic (15% VAT included) ---
         function calcMusaned() {
-            const recruitmentCost = parseFloat(document.getElementById('musanedNat').value);
-            const total = recruitmentCost + 2000 + 600 + 1000;
-            document.getElementById('musanedTotal').innerText = total.toLocaleString() + " SAR";
+            const fee = parseFloat(document.getElementById('musanedNat').value);
+            const vat = fee * 0.15;
+            const govt = 2000 + 600 + 1075; // Visa, Iqama, Insurance
+            document.getElementById('musanedTotal').innerText = Math.round(fee + vat + govt).toLocaleString() + " SAR";
         }
 
+        // --- Nitaqat Logic ---
         function calcNitaqat() {
             const total = parseInt(document.getElementById('nitTotal').value) || 0;
             const saudi = parseInt(document.getElementById('nitSaudi').value) || 0;
-            const card = document.getElementById('nitCard');
             const status = document.getElementById('nitStatus');
-            const advice = document.getElementById('nitAdvice');
-
-            if (total === 0) {
-                status.innerText = "AWAITING DATA";
-                card.className = "bg-slate-950 rounded-2xl p-8 flex flex-col justify-center items-center text-center border border-white/5";
-                return;
-            }
-
+            const card = document.getElementById('nitCard');
+            if (total === 0) { status.innerText = "AWAITING DATA"; return; }
             if (total <= 9) {
-                if (saudi >= 1) {
-                    status.innerText = "✅ GREEN"; status.style.color = "#10b981";
-                    advice.innerText = "Under Small Entity rules (0-9 staff), having 1 Saudi employee keeps you compliant.";
-                } else {
-                    status.innerText = "⚠️ RED"; status.style.color = "#ef4444";
-                    advice.innerText = "You need at least 1 Saudi employee to move into the Green zone for Small Entities.";
-                }
+                if (saudi >= 1) { status.innerText = "✅ GREEN"; status.style.color = "#10b981"; }
+                else { status.innerText = "⚠️ RED"; status.style.color = "#ef4444"; }
             } else {
                 const p = (saudi/total)*100;
                 status.innerText = p >= 25 ? "✅ SAFE" : "⚠️ AT RISK";
                 status.style.color = p >= 25 ? "#10b981" : "#f59e0b";
-                advice.innerText = `Your Saudization rate is ${p.toFixed(1)}%. Maintain 25%+ for most medium sectors.`;
             }
         }
 
